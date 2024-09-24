@@ -1,16 +1,19 @@
-name: Snyk Scan
+name: Build & Artifacts
 
 on:
   workflow_dispatch:
 
+  pull_request:
+    branches: main
 env:
   IMAGE_NAME: nodejs-goof
 
 jobs:
   build:
-    name: Snyk Scan
+    name: Build
+    needs: Snyk Scan
     runs-on: ubuntu-latest
-    
+  
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -42,7 +45,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+    
       - name: Snyk Container
         run: |
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} \
