@@ -44,8 +44,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: ./Dockerfile
-          context: ./juice-shop-goof
+          file: ./juice-shop-goof/Dockerfile
     
       - name: Snyk Container
         run: |
