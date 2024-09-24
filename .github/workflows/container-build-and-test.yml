@@ -1,18 +1,15 @@
-name: Snyk Scan
+name: Build & Artifacts
 
 on:
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["Ensure Snyk Policy Version"]
-  #   types:
-  #     - completed
-
+  pull_request:
+    branches: main
 env:
   IMAGE_NAME: nodejs-goof
 
 jobs:
   build:
-    name: Snyk Scan
+    name: Build
     runs-on: ubuntu-latest
     
     steps:
