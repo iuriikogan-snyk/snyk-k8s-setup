@@ -1,0 +1,19 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.30.4@sha256:6becd630a18e77730e31f3833f0b129bbcc9c09ee49c3b88429b3c1fdc30bfc4
+  - role: worker
+    image: kindest/node:v1.30.4@sha256:6becd630a18e77730e31f3833f0b129bbcc9c09ee49c3b88429b3c1fdc30bfc4
+    labels:
+      ingress-ready: true 
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+networking:
+  disableDefaultCNI: true
+  podSubnet: 10.89.0.0/16
