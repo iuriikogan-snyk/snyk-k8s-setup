@@ -1,0 +1,62 @@
+name: Snyk Scan
+
+on:
+  workflow_dispatch:
+  # workflow_run:
+  #   workflows: ["Ensure Snyk Policy Version"]
+  #   types:
+  #     - completed
+
+env:
+  IMAGE_NAME: nodejs-goof
+
+jobs:
+  build:
+    name: Snyk Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: linux/arm64
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          provenance: mode=max
+          tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Snyk Container
+        run: |
+          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} \
+          --file=./juice-shop-goof/Dockerfile --exclude-app-vulns --platform=linux/amd64 \
+          --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}"
+        continue-on-error: true
+
+      - name: Snyk SBOM generate
+        run: snyk container sbom --format=spdx2.3+json --name=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} > bom.spdx.json
+        continue-on-error: true
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.5
+        with:
+          name: snyk SBOM
+          path: bom.spdx.json
