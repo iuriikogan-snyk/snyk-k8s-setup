@@ -26,3 +26,37 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: juice-shop
+  labels:
+    app: juice-shop
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1337
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: juice-shop
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: juice-shop-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: juice-shop
+            port:
+              number: 1337
