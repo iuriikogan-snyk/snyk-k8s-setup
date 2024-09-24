@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+set -ou pipefail
 IFS=$'\t\n'
 
 # Record the start time
@@ -28,13 +28,13 @@ else
 fi
 
 
-## deploy the Calico CNI
+# ## deploy the Calico CNI
 
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/calico.yaml
+# kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/calico.yaml
 
-echo 'waiting for calico pods to become ready....' 
+# echo 'waiting for calico pods to become ready....' 
 
-kubectl wait --for=condition=ready pod -l k8s-app=calico-node -A --timeout=90s
+# kubectl wait --for=condition=ready pod -l k8s-app=calico-node -A --timeout=90s
 
 ## Deploy NGINX Ingress Controller
 if [[ $OS == "Darwin" ]]; then

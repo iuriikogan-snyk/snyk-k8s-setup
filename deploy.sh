@@ -23,9 +23,9 @@ trap 'handle_error $LINENO' ERR
 
 # Source the environment and preparation scripts
 # shellcheck source=./setenv.sh
-./setenv.sh
-# shellcheck source=./prepare.sh
-./prepare.sh
+. ./setenv.sh
+# shellcheck source=./scripts/prepare.sh
+./scripts/prepare.sh
 
 # Check if the correct number of arguments are provided
 if [ $# -eq 0 ]; then
@@ -68,29 +68,29 @@ done
 
 # Deploy using kind if the flag is set
 if $deploy_cluster; then
-    if [[ ! -f "./deploy-cluster.sh" ]]; then
-        echo "Error: ./deploy-cluster.sh script is missing."
+    if [[ ! -f "./scripts/deploy-cluster.sh" ]]; then
+        echo "Error: ./scripts/deploy-cluster.sh script is missing."
         exit 1
     fi
-    . ./deploy-cluster.sh
+    ./scripts/deploy-cluster.sh
 fi
 
 # Deploy the snyk-connector if the flag is set
 if $deploy_connector; then
-    if [[ ! -f "./deploy-connector.sh" ]]; then
-        echo "Error: ./deploy-connector.sh script is missing."
+    if [[ ! -f "./scripts/deploy-connector.sh" ]]; then
+        echo "Error: ./scripts/deploy-connector.sh script is missing."
         exit 1
     fi
-    . ./deploy-connector.sh
+    ./srcipts/deploy-connector.sh
 fi
 
 # Deploy the snyk-monitor if the flag is set
 if $deploy_monitor; then
-    if [[ ! -f "./deploy-monitor.sh" ]]; then
-        echo "Error: ./deploy-monitor.sh script is missing."
+    if [[ ! -f "./scripts/deploy-monitor.sh" ]]; then
+        echo "Error: ./scripts/deploy-monitor.sh script is missing."
         exit 1
     fi
-    . ./deploy-monitor.sh
+    .scripts/deploy-monitor.sh
 fi
 
 
@@ -100,5 +100,5 @@ if $deploy_demo; then
         echo "Error: ./deploy-demo.sh script is missing."
         exit 1
     fi
-    . ./deploy-demo.sh
+    ./deploy-demo.sh
 fi
