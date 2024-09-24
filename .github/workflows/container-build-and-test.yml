@@ -10,9 +10,9 @@ env:
 jobs:
   build:
     name: Build
+    needs: snyk-test
     runs-on: ubuntu-latest
-    needs: .github/workflows/snyk-test.yaml
-    
+  
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -44,7 +44,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+    
       - name: Snyk Container
         run: |
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} \
