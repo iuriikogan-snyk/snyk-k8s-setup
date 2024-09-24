@@ -48,12 +48,12 @@ jobs:
       - name: Snyk Container
         run: |
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} \
-          --file=./juice-shop-goof/Dockerfile --exclude-app-vulns --platform=$${{ env.platform }} \
+          --file=Dockerfile --exclude-app-vulns --platform=$${{ env.platform }} \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}"
         continue-on-error: true
 
       - name: Snyk SBOM generate
-        run: snyk container sbom --format=spdx2.3+json --name=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=./juice-shop-goof/Dockerfile --platform=$${{ env.platform }} > bom.spdx.json
+        run: snyk container sbom --format=spdx2.3+json --name=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --platform=$${{ env.platform }} > bom.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
