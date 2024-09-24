@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [18.x]
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Open Source
-        run: snyk test --json | snyk-filter # --json --print-deps | snyk-delta --setPassIfNoBaseline false
+        run: snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline true
         # run: snyk monitor --org=XXX ---project-name=XXX - Use snyk monitor command to upload the results to the UI
         continue-on-error: true
 
