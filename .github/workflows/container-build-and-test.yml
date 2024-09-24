@@ -2,10 +2,6 @@ name: Snyk Scan
 
 on:
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["Ensure Snyk Policy Version"]
-  #   types:
-  #     - completed
 
 env:
   IMAGE_NAME: nodejs-goof
