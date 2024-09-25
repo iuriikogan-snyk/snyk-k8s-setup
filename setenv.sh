@@ -5,6 +5,7 @@
 
 # Only export if not already set (optional variables)
 export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"          # Default empty if not set
+export SNYK_INTEGRATION_ID="${SNYK_INTEGRATION_ID:-}"
 export SNYK_MONITOR_SA_TOKEN="${SNYK_MONITOR_SA_TOKEN:-}"
 export SNYK_CONNECTOR_SA_TOKEN="${SNYK_CONNECTOR_SA_TOKEN:-}"
 export SNYK_ORG_ID="${SNYK_ORG_ID:-}"

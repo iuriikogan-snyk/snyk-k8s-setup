@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: juice-shop-internal
+  name: nodejs-goof-internal
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: juice-shop-internal
-  namespace: juice-shop-internal
+  name: nodejs-goof-internal
+  namespace: nodejs-goof-internal
 spec:
   selector:
-    matchlabels:
-      app: juice-shop-internal
+    matchLabels:  
+      app: nodejs-goof-internal
   template:
     metadata:
       labels:
-        app: juice-shop-internal
+        app: nodejs-goof-internal
     spec:
       containers:
-      - name: juice-shop-internal
-        image: iuriikogan/snyk-juice-shop:linux-arm64
+      - name: nodejs-goof-internal
+        image: iuriikogan/nodejs-goof:linux-arm64
         resources:
           limits:
             memory: "128Mi"

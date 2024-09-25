@@ -23,7 +23,8 @@ FROM node:20-buster as libxmljs-builder
 WORKDIR /juice-shop-shop
 RUN apt-get update && apt-get install -y build-essential python3
 COPY --from=installer ./juice-shop-goof/node_modules ./node_modules
-RUN rm -rf node_modules/libxmljs2/build && \
+RUN --mount=type=cache,target=node_modules \
+  rm -rf node_modules/libxmljs2/build && \
   cd node_modules/libxmljs2 && \
   npm run build
 
@@ -35,8 +36,8 @@ LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.source="https://github.com/iuriikogan-snyk/juice-shop-goof"
 LABEL io.snyk.containers.image.dockerfile="/Dockerfile"
 WORKDIR /juice-shop-goof
-COPY --from=installer --chown=65532:0 /juice-shop-goof .
-COPY --chown=65532:0 --from=libxmljs-builder /juice-shop-goof/node_modules/libxmljs2 ./node_modules/libxmljs2
+COPY --from=installer --chown=65532:0 /juice-shop-goof ./juice-shop-goof
+COPY --chown=65532:0 --from=libxmljs-builder ./juice-shop-goof/node_modules/libxmljs2 ./node_modules/libxmljs2
 USER 65532
 EXPOSE 3000
 CMD ["/juice-shop-goof/build/app.js"]

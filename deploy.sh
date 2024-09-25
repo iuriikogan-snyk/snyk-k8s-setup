@@ -2,7 +2,7 @@
 
 # **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure they are available in your environment**
 # Exit the script on any error, unset variable, or command failure in a pipeline.
-set -xeou pipefail
+set -eou pipefail
 
 
 # Function to print the usage information and exit the script with a non-zero status
@@ -57,7 +57,6 @@ for arg in "$@"; do
             deploy_cluster=true
             deploy_demo=true
             deploy_connector=true
-            deploy_monitor=true
             ;;
         *)
             echo "Invalid argument: $arg"
@@ -81,7 +80,7 @@ if $deploy_connector; then
         echo "Error: ./scripts/deploy-connector.sh script is missing."
         exit 1
     fi
-    ./srcipts/deploy-connector.sh
+    ./scripts/deploy-connector.sh
 fi
 
 # Deploy the snyk-monitor if the flag is set
@@ -96,9 +95,9 @@ fi
 
 # Deploy the demo if the flag is set
 if $deploy_demo; then
-    if [[ ! -f "./deploy-demo.sh" ]]; then
-        echo "Error: ./deploy-demo.sh script is missing."
+    if [[ ! -f "./scripts/deploy-demo.sh" ]]; then
+        echo "Error: ./scripts/deploy-demo.sh script is missing."
         exit 1
     fi
-    ./deploy-demo.sh
+    ./scripts/deploy-demo.sh
 fi

@@ -23,4 +23,4 @@ kubectl apply -f ./manifests/
 echo 'waiting for juice-shop pods to become ready....'
 kubectl wait --for=condition=ready pod -l app=juice-shop -n juice-shop --timeout=90s
 
-echo 'You can access juice-shop at: '"$(kubectl get ingress -n juice-shop -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}')"
+# echo 'You can access juice-shop at: '"$(kubectl get ingress -n juice-shop -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}')"
