@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: juice-shop
+  name: nodejs-goof 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: juice-shop
-  namespace: juice-shop
+  name: nodejs-goof 
+  namespace: nodejs-goof 
 spec:
   selector:
     matchLabels:
-      app: juice-shop
+      app: nodejs-goof 
   template:
     metadata:
-      labels:
-        app: juice-shop
+      labels:        
+        app: nodejs-goof 
     spec:
       containers:
-      - name: juice-shop
-        image: iuriikogan/snyk-juice-shop:linux-arm64
+      - name: nodejs-goof 
+        image: iuriikogan/nodejs-goof:linux-arm64
         resources:
           limits:
             memory: "128Mi"
@@ -30,9 +30,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: juice-shop
+  name: nodejs-goof 
   labels:
-    app: juice-shop
+    app: nodejs-goof 
 spec:
   type: ClusterIP
   ports:
@@ -40,12 +40,12 @@ spec:
       targetPort: 3000
       protocol: TCP
   selector:
-    app: juice-shop
+    app: nodejs-goof 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: juice-shop-ingress
+  name:  nodejs-goof-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -57,6 +57,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: juice-shop
+            name: nodejs-goof 
             port:
               number: 1337
