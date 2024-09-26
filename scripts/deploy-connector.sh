@@ -6,7 +6,7 @@ set -ou pipefail
 # Exit the script on any error, unset variable, or command failure in a pipeline.
 
 IFS=$'\t\n'
-
+start=$(date +%s)
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
     echo "Usage: bash deploy-connector.sh"
@@ -45,3 +45,5 @@ helm upgrade --install snyk-connector -n snyk-connector \
 
 echo 'waiting for kubernetes-connector pods to become ready....'
 kubectl -n snyk-connector wait --for=condition=ready pod -l app.kubernetes.io/name=kubernetes-scanner --timeout=90s
+
+echo 'Deployed Snyk Connector in: '$(( $(date +%s) - start )) "seconds"
