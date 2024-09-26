@@ -15,5 +15,5 @@ nodes:
         hostPort: 443
         protocol: TCP
 networking:
-  # disableDefaultCNI: true
+  disableDefaultCNI: true
   podSubnet: 10.89.0.0/16
