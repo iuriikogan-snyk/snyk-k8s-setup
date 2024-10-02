@@ -16,10 +16,13 @@ function handle_error {
     exit 1
 }
 
-echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+# echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
-# Build the demo application
-docker build . -t "$DOCKERHUB_USERNAME"/nodejs-goof:linux-arm64 --platform=linux/arm64 --push
+# # Build the demo application
+# docker build . -t "$DOCKERHUB_USERNAME"/nodejs-goof:linux-arm64 --platform=linux/arm64
+
+# # Monitor the container with the correct tags
+# snyk monitor "$DOCKERHUB_USERNAME"/nodejs-goof:linux-arm64 --platform=linux/arm64 --tags=
 
 # Deploy the demo application
 cat << EOL | kubectl apply -f -
