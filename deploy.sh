@@ -7,7 +7,7 @@ set -eou pipefail
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
-    echo "Usage: bash deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all]"
+    echo "Usage: bash deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--demo-connector-only]"
     echo "$@"
     exit 1
 }
@@ -23,7 +23,7 @@ trap 'handle_error $LINENO' ERR
 
 # Source the environment and preparation scripts
 # shellcheck source=./setenv.sh
-. ./setenv.sh
+./setenv.sh
 # shellcheck source=./scripts/prepare.sh
 ./scripts/prepare.sh
 
@@ -55,6 +55,11 @@ for arg in "$@"; do
             ;;
         --all)
             deploy_cluster=true
+            deploy_demo=true
+            deploy_connector=true
+            deploy_monitor=true
+            ;;
+        --demo-connector-only)
             deploy_demo=true
             deploy_connector=true
             ;;
@@ -89,7 +94,7 @@ if $deploy_monitor; then
         echo "Error: ./scripts/deploy-monitor.sh script is missing."
         exit 1
     fi
-    .scripts/deploy-monitor.sh
+    ./scripts/deploy-monitor.sh
 fi
 
 
